@@ -1,5 +1,6 @@
 package com.example.outfitpicker
 
+import android.graphics.Bitmap
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -8,5 +9,6 @@ data class Item(
     @PrimaryKey(autoGenerate = true)
     val id : Int = 0,
     val name : String,
-    val type : String
+    val type : String,
+    val image : Bitmap
 )
