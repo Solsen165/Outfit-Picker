@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PickOutfit">
+
+
+<ImageView
+    android:id="@+id/img_save"
+    android:layout_width="249dp"
+    android:layout_height="260dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.407"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.322"
+    tools:src="@tools:sample/avatars" />
+
+<Button
+    android:id="@+id/btn_pick_img"
+    android:layout_width="137dp"
+    android:layout_height="98dp"
+    android:layout_marginTop="164dp"
+    android:text="Gallery"
+    android:textSize="25dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.883"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/img_save"
+    app:layout_constraintVertical_bias="0.216" />
+
+<Button
+    android:id="@+id/btn_take_picture"
+    android:layout_width="162dp"
+    android:layout_height="94dp"
+    android:text="Camera"
+    android:textSize="25dp"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintHorizontal_bias="0.064"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/img_save"
+    app:layout_constraintVertical_bias="0.776" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+

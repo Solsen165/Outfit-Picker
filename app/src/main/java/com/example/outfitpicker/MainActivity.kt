@@ -1,6 +1,7 @@
 package com.example.outfitpicker
 
 import android.app.Dialog
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AppCompatActivity
@@ -46,15 +47,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val additembtn : Button = findViewById(R.id.add_btn)
+        val additembtn: Button = findViewById(R.id.add_btn)
 
-        additembtn.setOnClickListener(){
+        additembtn.setOnClickListener() {
 
             showDialogBox(message = null)
         }
 
 
+            val Activity2btn: Button = findViewById(R.id.add_btn)
+            Activity2btn.setOnClickListener {
+                val Intent = Intent(this, Activity2::class.java)
+                startActivity(Intent)
+
+
+
+                Toast.makeText(
+                    this,
+                    "Pick your outfit", Toast.LENGTH_SHORT
+                ).show()
+            }
+
+
+        }
 
     }
-
-}
