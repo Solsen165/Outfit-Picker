@@ -5,9 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity("item_table")
 data class Item(
+    @PrimaryKey(autoGenerate = true)
+    val id : Int = 0,
     val name : String,
     val type : String
-){
-    @PrimaryKey(autoGenerate = true)
-    val id : Int = 0
-}
+)
