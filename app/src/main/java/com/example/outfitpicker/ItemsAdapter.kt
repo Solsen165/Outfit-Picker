@@ -23,6 +23,11 @@ class ItemsAdapter: RecyclerView.Adapter<ItemsAdapter.ViewHolder>() {
 
         }
     }
+
+    fun setItems(newItems : List<Item>) {
+        items = newItems
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_clothes,parent,false)
         return ViewHolder(view)

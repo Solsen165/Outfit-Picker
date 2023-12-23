@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.graphics.drawable.toBitmap
+import androidx.room.TypeConverter
 import java.io.ByteArrayOutputStream
 
 class SavingClothesItemActivity : AppCompatActivity() {
@@ -32,26 +33,42 @@ class SavingClothesItemActivity : AppCompatActivity() {
             saveItem()
         }
 
+        val bitmap = intent.getByteArrayExtra("image")?.let { toBitmap(it) }
+        imageView.setImageBitmap(bitmap)
+
     }
 
     fun saveItem() {
         val itemName: String = editTextName.text.toString()
         val itemType: String = spinnerType.selectedItem.toString()
 
-        val outputStream = ByteArrayOutputStream()
-        val bitmap = imageView.drawable.toBitmap()
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream)
-        val byteArray = outputStream.toByteArray()
+        //val outputStream = ByteArrayOutputStream()
+        //val bitmap = imageView.drawable.toBitmap()
+        //bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream)
+        //val byteArray = outputStream.toByteArray()
+
+        val image = fromBitmap(imageView.drawable.toBitmap())
 
         //TODO add data verification
 
         var newIntent = Intent().putExtra("name",itemName)
             .putExtra("type",itemType)
-            .putExtra("image",byteArray)
+            .putExtra("image",image)
 
         setResult(RESULT_OK,newIntent)
         finish()
     }
+
+    fun fromBitmap(bitmap: Bitmap): ByteArray {
+        val outputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream)
+        return outputStream.toByteArray()
+    }
+
+    fun toBitmap(byteArray: ByteArray): Bitmap {
+        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+    }
+
 
     // Contract that connects this activity with the main one
     // It basically manages how the intents are processed

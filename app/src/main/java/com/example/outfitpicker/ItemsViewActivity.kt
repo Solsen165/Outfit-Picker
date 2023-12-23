@@ -12,8 +12,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class ItemsViewActivity : AppCompatActivity() {
     // Linking to the view model
@@ -46,6 +48,15 @@ class ItemsViewActivity : AppCompatActivity() {
         val adapter: ItemsAdapter = ItemsAdapter()
         recyclerView.adapter = adapter
 
+        val addButton: FloatingActionButton = findViewById(R.id.button_add_clothes_item)
+        addButton.setOnClickListener{
+            showDialogBox(null)
+        }
+
+        // Observing the view model so that when we add new items, the recycler view is updated
+        itemsViewModel.getAllNotes().observe(this, Observer {items ->
+            adapter.setItems(items)
+        })
 
     }
     private fun showDialogBox(message: String?) {
