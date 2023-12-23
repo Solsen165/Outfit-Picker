@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="types">
+        <item>Shoes</item>
+        <item>Pants</item>
+        <item>Jacket</item>
+        <item>Hat</item>
+        <item>Hoodie</item>
+        <item>T-shirt</item>
+        <item>Sweat-Shirt</item>
+        <item>Jeans</item>
+    </string-array>
+</resources>
