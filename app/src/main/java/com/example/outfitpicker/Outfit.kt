@@ -5,8 +5,9 @@ import androidx.room.PrimaryKey
 
 @Entity("outfit_table")
 data class Outfit(
-    val Name : String
+    val name : String,
+    val items : List<Item>
 ){
     @PrimaryKey(autoGenerate = true)
-    val Id : Int = 0
+    val id : Int = 0
 }
