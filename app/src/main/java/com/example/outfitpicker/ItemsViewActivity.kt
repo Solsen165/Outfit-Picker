@@ -2,9 +2,12 @@ package com.example.outfitpicker
 
 import android.app.Dialog
 import android.graphics.Color
+import android.graphics.ImageDecoder
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
@@ -27,6 +30,15 @@ class ItemsViewActivity : AppCompatActivity() {
     private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) {
         if (it != null) {
             addItemContract.launch(it)
+        }
+    }
+
+    private val takePictureFromGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
+        if (it != null) {
+            //Toast.makeText(this,"Hi",Toast.LENGTH_SHORT).show()
+            val source = ImageDecoder.createSource(contentResolver, it)
+            val bitmap = ImageDecoder.decodeBitmap(source)
+            addItemContract.launch(bitmap)
         }
     }
 
@@ -77,11 +89,15 @@ class ItemsViewActivity : AppCompatActivity() {
 
         cambtn.setOnClickListener {
             takePicture.launch(null)
+            dialog.dismiss()
             //Toast.makeText(this, "camera opened", Toast.LENGTH_SHORT).show()
         }
 
         fromgallerybutton.setOnClickListener {
+            //takePictureFromGallery.launch("image/*")
+            // TODO implement the gallery selection
             Toast.makeText(this, "gallery opened", Toast.LENGTH_SHORT).show()
+            dialog.dismiss()
         }
         cancelbtn.setOnClickListener {
             dialog.dismiss()
