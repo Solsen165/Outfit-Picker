@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
 
             val Activity2btn: Button = findViewById(R.id.add_btn)
             Activity2btn.setOnClickListener {
-                val Intent = Intent(this, Activity2::class.java)
+                val Intent = Intent(this, PickOutfit::class.java)
                 startActivity(Intent)
 
 
