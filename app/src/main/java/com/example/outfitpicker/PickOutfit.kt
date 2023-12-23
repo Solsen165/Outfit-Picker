@@ -10,7 +10,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.Toast
 
-class Activity2 : AppCompatActivity() {
+class PickOutfit : AppCompatActivity() {
 
 
     lateinit var imageView2: ImageView
