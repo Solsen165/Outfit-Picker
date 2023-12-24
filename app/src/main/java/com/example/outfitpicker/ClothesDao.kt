@@ -10,7 +10,7 @@ import androidx.room.Update
 @Dao
 interface ClothesDao {
     @Insert
-    suspend fun insertItem(item:Item)
+    suspend fun insertItem(item:Item): Long
 
     @Update
     suspend fun updateItem(item:Item)

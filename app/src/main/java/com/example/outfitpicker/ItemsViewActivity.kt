@@ -1,6 +1,7 @@
 package com.example.outfitpicker
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.graphics.drawable.ColorDrawable
@@ -14,11 +15,16 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.launch
 import androidx.activity.viewModels
+import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.io.File
+import java.io.FileOutputStream
 
 class ItemsViewActivity : AppCompatActivity() {
     // Linking to the view model
@@ -26,29 +32,43 @@ class ItemsViewActivity : AppCompatActivity() {
         ItemsViewModelFactory((application as ClothesApplication).repository)
     }
 
-    // Contract to take picture
-    private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) {
-        if (it != null) {
-            addItemContract.launch(it)
-        }
-    }
-
-    private val takePictureFromGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {
-        if (it != null) {
-            //Toast.makeText(this,"Hi",Toast.LENGTH_SHORT).show()
-            val source = ImageDecoder.createSource(contentResolver, it)
-            val bitmap = ImageDecoder.decodeBitmap(source)
-            addItemContract.launch(bitmap)
-        }
-    }
-
-    private val addItemContract = registerForActivityResult(SavingClothesItemActivity.AddItemContract()) {
-        if (it != null) {
-            itemsViewModel.insert(it)
+    private val addItemContract = registerForActivityResult(SavingClothesItemActivity.AddItemContract()) {item ->
+        if (item != null) {
+            itemsViewModel.insert(item).observe(this, Observer { id ->
+                val oldFile = File(filesDir,"temp.png")
+                val bytes = contentResolver.openInputStream(oldFile.toUri())?.use {
+                    it.readBytes()
+                }
+                val file = File(filesDir,"Item#$id.png")
+                FileOutputStream(file).use {
+                    it.write(bytes)
+                }
+            })
             Toast.makeText(this,"Item saved",Toast.LENGTH_SHORT).show()
         }
     }
 
+    // Contract to take picture
+    lateinit var tempFileUri: Uri
+    private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) {
+        if (it) {
+            addItemContract.launch(tempFileUri)
+        }
+    }
+
+    // Contract to select from gallery
+    private val takePictureFromGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {selectedImage ->
+        if (selectedImage != null) {
+            val bytes = contentResolver.openInputStream(selectedImage)?.use {
+                it.readBytes()
+            }
+            val tempFile = File(filesDir, "temp.png")
+            FileOutputStream(tempFile).use {
+                it.write(bytes)
+            }
+            addItemContract.launch(tempFile.toUri())
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,7 +77,7 @@ class ItemsViewActivity : AppCompatActivity() {
         // RecyclerView
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view_clothes_items)
         recyclerView.layoutManager = GridLayoutManager(this, 3)
-        val adapter: ItemsAdapter = ItemsAdapter()
+        val adapter: ItemsAdapter = ItemsAdapter(filesDir)
         recyclerView.adapter = adapter
 
         val addButton: FloatingActionButton = findViewById(R.id.button_add_clothes_item)
@@ -88,17 +108,22 @@ class ItemsViewActivity : AppCompatActivity() {
         val cancelbtn: Button = dialog.findViewById(R.id.cancel_btn)
 
         cambtn.setOnClickListener {
-            takePicture.launch(null)
+
+            val tempFile = File(filesDir,"temp.png")
+            tempFileUri = FileProvider.getUriForFile(applicationContext, "com.example.outfitpicker.fileProvider",tempFile)
+
+            takePicture.launch(tempFileUri)
+
             dialog.dismiss()
-            //Toast.makeText(this, "camera opened", Toast.LENGTH_SHORT).show()
         }
 
         fromgallerybutton.setOnClickListener {
-            //takePictureFromGallery.launch("image/*")
-            // TODO implement the gallery selection
-            Toast.makeText(this, "gallery opened", Toast.LENGTH_SHORT).show()
+            takePictureFromGallery.launch("image/*")
+
+            //Toast.makeText(this, "gallery opened", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
+
         cancelbtn.setOnClickListener {
             dialog.dismiss()
         }

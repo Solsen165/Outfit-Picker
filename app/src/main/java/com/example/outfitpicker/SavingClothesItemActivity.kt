@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
@@ -32,9 +33,8 @@ class SavingClothesItemActivity : AppCompatActivity() {
         buttonSave.setOnClickListener{
             saveItem()
         }
-
-        val bitmap = intent.getByteArrayExtra("image")?.let { toBitmap(it) }
-        imageView.setImageBitmap(bitmap)
+        val imageUri = Uri.parse(intent.getStringExtra("imageUri"))
+        imageView.setImageURI(imageUri)
 
     }
 
@@ -42,58 +42,31 @@ class SavingClothesItemActivity : AppCompatActivity() {
         val itemName: String = editTextName.text.toString()
         val itemType: String = spinnerType.selectedItem.toString()
 
-        //val outputStream = ByteArrayOutputStream()
-        //val bitmap = imageView.drawable.toBitmap()
-        //bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream)
-        //val byteArray = outputStream.toByteArray()
-
-        val image = fromBitmap(imageView.drawable.toBitmap())
-
         //TODO add data verification
 
         var newIntent = Intent().putExtra("name",itemName)
             .putExtra("type",itemType)
-            .putExtra("image",image)
 
         setResult(RESULT_OK,newIntent)
         finish()
     }
 
-    fun fromBitmap(bitmap: Bitmap): ByteArray {
-        val outputStream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream)
-        return outputStream.toByteArray()
-    }
-
-    fun toBitmap(byteArray: ByteArray): Bitmap {
-        return BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
-    }
-
-
     // Contract that connects this activity with the main one
     // It basically manages how the intents are processed
-    class AddItemContract: ActivityResultContract<Bitmap, Item?>() {
-        override fun createIntent(context: Context, input: Bitmap): Intent {
-            val bitmap = input
-            val outputStream = ByteArrayOutputStream()
-            bitmap.compress(Bitmap.CompressFormat.PNG,100,outputStream)
-            val byteArray = outputStream.toByteArray()
-
+    class AddItemContract: ActivityResultContract<Uri, Item?>() {
+        override fun createIntent(context: Context, input: Uri): Intent {
             return Intent(context, SavingClothesItemActivity::class.java)
-                .putExtra("image",byteArray)
+                .putExtra("imageUri",input.toString())
         }
 
         override fun parseResult(resultCode: Int, intent: Intent?): Item? {
             if (resultCode != RESULT_OK) {
                 return null
             }
-            val byteArray = intent?.getByteArrayExtra("image")
-            val bitmap = BitmapFactory.decodeByteArray(byteArray,0,byteArray!!.size)
 
             val newItem = Item(
                 name = intent!!.getStringExtra("name").orEmpty(),
-                type = intent.getStringExtra("type").orEmpty(),
-                image = bitmap)
+                type = intent.getStringExtra("type").orEmpty())
 
             return newItem
         }

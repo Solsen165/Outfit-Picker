@@ -5,9 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import java.io.File
 
-class ItemsAdapter: RecyclerView.Adapter<ItemsAdapter.ViewHolder>() {
+class ItemsAdapter(private val filesDir: File): RecyclerView.Adapter<ItemsAdapter.ViewHolder>() {
     private var items: List<Item> = emptyList()
 
     init {
@@ -35,7 +37,9 @@ class ItemsAdapter: RecyclerView.Adapter<ItemsAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ItemsAdapter.ViewHolder, position: Int) {
         holder.textViewName.text = items[position].name
-        holder.imageViewItem.setImageBitmap(items[position].image)
+        val id = items[position].id
+        val file: File = File(filesDir,"Item#$id.png")
+        holder.imageViewItem.setImageURI(file.toUri())
 
     }
 
