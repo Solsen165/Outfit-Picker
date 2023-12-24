@@ -49,9 +49,11 @@ class ItemsViewActivity : AppCompatActivity() {
     }
 
     // Contract to take picture
-    var TAKEPICTURESUCCESS = false
+    lateinit var tempFileUri: Uri
     private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) {
-        TAKEPICTURESUCCESS = it
+        if (it) {
+            addItemContract.launch(tempFileUri)
+        }
     }
 
     // Contract to select from gallery
@@ -106,18 +108,11 @@ class ItemsViewActivity : AppCompatActivity() {
         val cancelbtn: Button = dialog.findViewById(R.id.cancel_btn)
 
         cambtn.setOnClickListener {
-            val tempFile = File.createTempFile("temp",".png",cacheDir).apply {
-                createNewFile()
-                deleteOnExit()
-            }
 
-            //val tempFileUri = FileProvider.getUriForFile(applicationContext, "$packageName.provider",tempFile)
-            TAKEPICTURESUCCESS = false
-            //takePicture.launch(tempFileUri)
+            val tempFile = File(filesDir,"temp.png")
+            tempFileUri = FileProvider.getUriForFile(applicationContext, "com.example.outfitpicker.fileProvider",tempFile)
 
-            if (TAKEPICTURESUCCESS) {
-                addItemContract.launch(tempFile.toUri())
-            }
+            takePicture.launch(tempFileUri)
 
             dialog.dismiss()
         }
