@@ -1,6 +1,7 @@
 package com.example.outfitpicker
 
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.ImageDecoder
 import android.graphics.drawable.ColorDrawable
@@ -16,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.launch
 import androidx.activity.viewModels
+import androidx.core.content.FileProvider
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -47,17 +49,14 @@ class ItemsViewActivity : AppCompatActivity() {
     }
 
     // Contract to take picture
-    private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicturePreview()) {
-        if (it != null) {
-            //addItemContract.launch()
-        }
+    var TAKEPICTURESUCCESS = false
+    private val takePicture = registerForActivityResult(ActivityResultContracts.TakePicture()) {
+        TAKEPICTURESUCCESS = it
     }
 
+    // Contract to select from gallery
     private val takePictureFromGallery = registerForActivityResult(ActivityResultContracts.GetContent()) {selectedImage ->
         if (selectedImage != null) {
-            //Toast.makeText(this,"Hi",Toast.LENGTH_SHORT).show()
-            //val source = ImageDecoder.createSource(contentResolver, it)
-            //val bitmap = ImageDecoder.decodeBitmap(source)
             val bytes = contentResolver.openInputStream(selectedImage)?.use {
                 it.readBytes()
             }
@@ -107,17 +106,29 @@ class ItemsViewActivity : AppCompatActivity() {
         val cancelbtn: Button = dialog.findViewById(R.id.cancel_btn)
 
         cambtn.setOnClickListener {
-            takePicture.launch(null)
+            val tempFile = File.createTempFile("temp",".png",cacheDir).apply {
+                createNewFile()
+                deleteOnExit()
+            }
+
+            //val tempFileUri = FileProvider.getUriForFile(applicationContext, "$packageName.provider",tempFile)
+            TAKEPICTURESUCCESS = false
+            //takePicture.launch(tempFileUri)
+
+            if (TAKEPICTURESUCCESS) {
+                addItemContract.launch(tempFile.toUri())
+            }
+
             dialog.dismiss()
-            //Toast.makeText(this, "camera opened", Toast.LENGTH_SHORT).show()
         }
 
         fromgallerybutton.setOnClickListener {
             takePictureFromGallery.launch("image/*")
-            // TODO implement the gallery selection
-            Toast.makeText(this, "gallery opened", Toast.LENGTH_SHORT).show()
+
+            //Toast.makeText(this, "gallery opened", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
+
         cancelbtn.setOnClickListener {
             dialog.dismiss()
         }

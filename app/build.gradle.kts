@@ -8,6 +8,9 @@ android {
     namespace = "com.example.outfitpicker"
     compileSdk = 34
 
+    buildFeatures {
+        buildConfig = true
+    }
     defaultConfig {
         applicationId = "com.example.outfitpicker"
         minSdk = 28

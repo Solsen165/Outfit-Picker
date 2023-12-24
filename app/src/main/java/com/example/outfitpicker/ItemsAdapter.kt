@@ -37,7 +37,6 @@ class ItemsAdapter(private val filesDir: File): RecyclerView.Adapter<ItemsAdapte
 
     override fun onBindViewHolder(holder: ItemsAdapter.ViewHolder, position: Int) {
         holder.textViewName.text = items[position].name
-        //holder.imageViewItem.setImageBitmap(items[position].image)
         val id = items[position].id
         val file: File = File(filesDir,"Item#$id.png")
         holder.imageViewItem.setImageURI(file.toUri())
