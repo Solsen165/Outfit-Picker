@@ -1,6 +1,7 @@
 package com.example.outfitpicker
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -9,8 +10,12 @@ import kotlinx.coroutines.launch
 class ItemsViewModel(private val repository: ClothesRepository): ViewModel() {
     private val allItems = repository.getAllItems()
 
-    fun insert(item: Item) = viewModelScope.launch {
-        repository.insertItem(item)
+    fun insert(item: Item): LiveData<Long> {
+        val result = MutableLiveData<Long>()
+        viewModelScope.launch {
+            result.postValue(repository.insertItem(item))
+        }
+        return result
     }
     fun update(item: Item) = viewModelScope.launch {
         repository.updateItem(item)

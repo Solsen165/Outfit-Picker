@@ -9,6 +9,6 @@ data class Item(
     @PrimaryKey(autoGenerate = true)
     val id : Int = 0,
     val name : String,
-    val type : String,
-    val image : Bitmap
+    val type : String
+    //val image : Bitmap
 )

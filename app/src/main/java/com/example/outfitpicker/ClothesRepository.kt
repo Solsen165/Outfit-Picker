@@ -9,8 +9,8 @@ class ClothesRepository(private val clothesDao: ClothesDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertItem(item: Item) {
-        clothesDao.insertItem(item)
+    suspend fun insertItem(item: Item): Long {
+        return clothesDao.insertItem(item)
     }
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
