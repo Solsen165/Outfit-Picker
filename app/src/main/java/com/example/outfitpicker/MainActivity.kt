@@ -51,7 +51,7 @@ class MainActivity : AppCompatActivity() {
 
         additembtn.setOnClickListener() {
 
-            startActivity(Intent(this,ItemsViewActivity::class.java))
+            startActivity(Intent(this,ItemListViewActivity::class.java))
             //showDialogBox(message = null)
         }
 

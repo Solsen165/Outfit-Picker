@@ -28,7 +28,7 @@
             android:name=".SavingClothesItemActivity"
             android:exported="false" />
         <activity
-            android:name=".ItemsViewActivity"
+            android:name=".ItemListViewActivity"
             android:exported="false" />
         <activity
             android:name=".PickOutfit"
