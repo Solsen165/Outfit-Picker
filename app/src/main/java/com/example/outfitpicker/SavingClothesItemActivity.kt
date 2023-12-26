@@ -2,8 +2,6 @@ package com.example.outfitpicker
 
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -12,9 +10,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Spinner
 import androidx.activity.result.contract.ActivityResultContract
-import androidx.core.graphics.drawable.toBitmap
-import androidx.room.TypeConverter
-import java.io.ByteArrayOutputStream
+import com.example.outfitpicker.databasefiles.Item
 
 class SavingClothesItemActivity : AppCompatActivity() {
     lateinit var editTextName: EditText

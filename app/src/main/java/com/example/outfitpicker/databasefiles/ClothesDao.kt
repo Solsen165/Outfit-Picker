@@ -1,4 +1,4 @@
-package com.example.outfitpicker
+package com.example.outfitpicker.databasefiles
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
@@ -10,10 +10,10 @@ import androidx.room.Update
 @Dao
 interface ClothesDao {
     @Insert
-    suspend fun insertItem(item:Item): Long
+    suspend fun insertItem(item: Item): Long
 
     @Update
-    suspend fun updateItem(item:Item)
+    suspend fun updateItem(item: Item)
 
     @Delete
     suspend fun deleteItem(item: Item)
@@ -22,10 +22,10 @@ interface ClothesDao {
     fun getAllItems(): LiveData<List<Item>>
 
     @Insert
-    suspend fun insertOutfit(outfit:Outfit)
+    suspend fun insertOutfit(outfit: Outfit)
 
     @Update
-    suspend fun updateOutfit(outfit:Outfit)
+    suspend fun updateOutfit(outfit: Outfit)
 
     @Delete
     suspend fun deleteOutfit(outfit: Outfit)
