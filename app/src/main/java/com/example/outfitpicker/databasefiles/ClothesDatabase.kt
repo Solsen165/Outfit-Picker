@@ -1,4 +1,4 @@
-package com.example.outfitpicker
+package com.example.outfitpicker.databasefiles
 
 import android.content.Context
 import androidx.room.Database
@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 
-@Database(entities = [Item::class,Outfit::class], version = 1)
+@Database(entities = [Item::class, Outfit::class], version = 1)
 @TypeConverters(Converters::class)
 abstract class ClothesDatabase: RoomDatabase() {
     abstract fun clothesDao() : ClothesDao

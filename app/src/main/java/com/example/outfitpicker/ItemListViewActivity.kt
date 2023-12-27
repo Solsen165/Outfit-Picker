@@ -1,21 +1,17 @@
 package com.example.outfitpicker
 
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
-import android.graphics.ImageDecoder
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
@@ -26,7 +22,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
 import java.io.FileOutputStream
 
-class ItemsViewActivity : AppCompatActivity() {
+class ItemListViewActivity : AppCompatActivity() {
     // Linking to the view model
     private val itemsViewModel: ItemsViewModel by viewModels {
         ItemsViewModelFactory((application as ClothesApplication).repository)
@@ -74,6 +70,7 @@ class ItemsViewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_items_view)
 
+        title = "My Clothes"
         // RecyclerView
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view_clothes_items)
         recyclerView.layoutManager = GridLayoutManager(this, 3)

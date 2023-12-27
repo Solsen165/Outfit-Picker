@@ -5,6 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.example.outfitpicker.databasefiles.ClothesRepository
+import com.example.outfitpicker.databasefiles.Item
 import kotlinx.coroutines.launch
 
 class ItemsViewModel(private val repository: ClothesRepository): ViewModel() {

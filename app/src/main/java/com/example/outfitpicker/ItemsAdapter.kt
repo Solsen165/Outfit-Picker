@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.RecyclerView
+import com.example.outfitpicker.databasefiles.Item
 import java.io.File
 
 class ItemsAdapter(private val filesDir: File): RecyclerView.Adapter<ItemsAdapter.ViewHolder>() {

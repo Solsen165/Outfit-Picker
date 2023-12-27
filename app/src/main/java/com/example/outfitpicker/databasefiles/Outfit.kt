@@ -1,4 +1,4 @@
-package com.example.outfitpicker
+package com.example.outfitpicker.databasefiles
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

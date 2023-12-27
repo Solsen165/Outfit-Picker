@@ -1,4 +1,4 @@
-package com.example.outfitpicker
+package com.example.outfitpicker.databasefiles
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
