@@ -43,8 +43,8 @@ class ItemsAdapter(private val filesDir: File, private val listener: OnItemClick
         holder.textViewName.text = items[position].name
         val id = items[position].id
         val file: File = File(filesDir,"Item#$id.png")
+        holder.imageViewItem.setImageURI(null)
         holder.imageViewItem.setImageURI(file.toUri())
-
     }
 
     override fun getItemCount(): Int {
