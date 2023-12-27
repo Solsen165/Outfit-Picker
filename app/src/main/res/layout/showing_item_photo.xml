@@ -84,16 +84,6 @@
             android:minHeight="48dp" />
 
 
-
-
-        <Button
-            android:id="@+id/buttonSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/checkBoxAnniversary"
-            android:layout_marginTop="16dp"
-            android:text="Edit" />
-
     </LinearLayout>
 
 

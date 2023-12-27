@@ -18,6 +18,7 @@ import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.outfitpicker.databasefiles.Item
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import java.io.File
 import java.io.FileOutputStream
@@ -26,6 +27,10 @@ class ItemListViewActivity : AppCompatActivity() {
     // Linking to the view model
     private val itemsViewModel: ItemsViewModel by viewModels {
         ItemsViewModelFactory((application as ClothesApplication).repository)
+    }
+
+    private val showItemContract = registerForActivityResult(ShowingItemActivity.ShowItemContract()) {
+
     }
 
     private val addItemContract = registerForActivityResult(SavingClothesItemActivity.AddItemContract()) {item ->
@@ -74,7 +79,11 @@ class ItemListViewActivity : AppCompatActivity() {
         // RecyclerView
         val recyclerView: RecyclerView = findViewById(R.id.recycler_view_clothes_items)
         recyclerView.layoutManager = GridLayoutManager(this, 3)
-        val adapter: ItemsAdapter = ItemsAdapter(filesDir)
+        val adapter: ItemsAdapter = ItemsAdapter(filesDir, object : ItemsAdapter.OnItemClickListener {
+            override fun onItemClick(item: Item) {
+                showItemContract.launch(item)
+            }
+        })
         recyclerView.adapter = adapter
 
         val addButton: FloatingActionButton = findViewById(R.id.button_add_clothes_item)
