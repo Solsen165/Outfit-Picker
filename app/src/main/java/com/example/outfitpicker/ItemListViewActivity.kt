@@ -29,8 +29,11 @@ class ItemListViewActivity : AppCompatActivity() {
         ItemsViewModelFactory((application as ClothesApplication).repository)
     }
 
-    private val showItemContract = registerForActivityResult(ShowingItemActivity.ShowItemContract()) {
-
+    private val showItemContract = registerForActivityResult(ShowingItemActivity.ShowItemContract()) {item ->
+        if (item != null) {
+            itemsViewModel.update(item)
+            Toast.makeText(this,"Item updated", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private val addItemContract = registerForActivityResult(SavingClothesItemActivity.AddItemContract()) {item ->
