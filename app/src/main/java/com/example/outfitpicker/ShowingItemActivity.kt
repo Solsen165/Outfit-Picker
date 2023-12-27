@@ -74,6 +74,7 @@ class ShowingItemActivity : AppCompatActivity() {
     }
     fun populateFields() {
         val imageFile = File(filesDir,"Item#${currItem.id}.png")
+        imageView.setImageURI(null)
         imageView.setImageURI(imageFile.toUri())
         textViewName.setText(currItem.name)
         textViewtype.setText(currItem.type)

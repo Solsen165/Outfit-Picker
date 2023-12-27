@@ -129,7 +129,6 @@ class ItemListViewActivity : AppCompatActivity() {
         fromgallerybutton.setOnClickListener {
             takePictureFromGallery.launch("image/*")
 
-            //Toast.makeText(this, "gallery opened", Toast.LENGTH_SHORT).show()
             dialog.dismiss()
         }
 

@@ -50,29 +50,9 @@ class MainActivity : AppCompatActivity() {
         val additembtn: Button = findViewById(R.id.add_btn)
 
         additembtn.setOnClickListener() {
-
             startActivity(Intent(this,ItemListViewActivity::class.java))
-            //showDialogBox(message = null)
-        }
-
-            /*
-            val Activity2btn: Button = findViewById(R.id.add_btn)
-            Activity2btn.setOnClickListener {
-                /*
-                val Intent = Intent(this, ItemsView::class.java)
-                startActivity(Intent)
-
-                Toast.makeText(
-                    this,
-                    "Pick your outfit", Toast.LENGTH_SHORT
-                ).show()
-                 */
-                //showDialogBox(null)
-            }
-
-             */
-
-
         }
 
     }
+
+}
