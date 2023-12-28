@@ -95,7 +95,7 @@ class ItemListViewActivity : AppCompatActivity() {
         }
 
         // Observing the view model so that when we add new items, the recycler view is updated
-        itemsViewModel.getAllNotes().observe(this, Observer {items ->
+        itemsViewModel.getAllItems().observe(this, Observer { items ->
             adapter.setItems(items)
             recyclerView.invalidate()
         })

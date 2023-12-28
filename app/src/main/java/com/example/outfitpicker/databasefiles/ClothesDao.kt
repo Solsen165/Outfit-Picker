@@ -23,7 +23,7 @@ interface ClothesDao {
     fun getAllItems(): LiveData<List<Item>>
 
     @Insert
-    suspend fun insertOutfit(outfit: Outfit)
+    suspend fun insertOutfit(outfit: Outfit): Long
 
     @Update
     suspend fun updateOutfit(outfit: Outfit)
@@ -38,8 +38,8 @@ interface ClothesDao {
     suspend fun insertItemOutfitCrossRef(crossRef: ItemOutfitCrossRef)
 
     @Transaction
-    @Query("SELECT * FROM outfit_table WHERE outfitId = :outfitId")
-    suspend fun getOutfitWithItems(outfitId: Int): List<OutfitWithItems>
+    @Query("SELECT * FROM outfit_table")
+    fun getOutfitWithItems(): LiveData<List<OutfitWithItems>>
 
     @Transaction
     @Query("SELECT * FROM item_table WHERE itemId = :itemId")

@@ -47,10 +47,14 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val additembtn: Button = findViewById(R.id.add_btn)
+        val itemButton: Button = findViewById(R.id.item_btn)
+        val outfitButton: Button = findViewById(R.id.outfit_btn)
 
-        additembtn.setOnClickListener() {
+        itemButton.setOnClickListener {
             startActivity(Intent(this,ItemListViewActivity::class.java))
+        }
+        outfitButton.setOnClickListener {
+            startActivity(Intent(this,OutfitListViewActivity::class.java))
         }
 
     }
