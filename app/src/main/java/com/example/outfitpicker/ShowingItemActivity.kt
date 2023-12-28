@@ -19,8 +19,8 @@ class ShowingItemActivity : AppCompatActivity() {
     lateinit var imageView: ImageView
     lateinit var textViewName : TextView
     lateinit var textViewtype : TextView
-    lateinit var seasonLayout: LinearLayout
-    lateinit var occasionLayout: LinearLayout
+    lateinit var textViewSeasons: TextView
+    lateinit var textViewOccasions: TextView
     lateinit var currItem: Item
     private val editItemContract = registerForActivityResult(SavingClothesItemActivity.EditItemContract()) {item ->
         if (item != null) {
@@ -43,6 +43,8 @@ class ShowingItemActivity : AppCompatActivity() {
         imageView = findViewById(R.id.item_image_preview)
         textViewName = findViewById(R.id.item_name)
         textViewtype = findViewById(R.id.spinnerType)
+        textViewOccasions = findViewById(R.id.item_occasion_info)
+        textViewSeasons = findViewById(R.id.item_season_info)
 
         currItem = extractItem()
         populateFields()
@@ -80,6 +82,27 @@ class ShowingItemActivity : AppCompatActivity() {
         imageView.setImageURI(imageFile.toUri())
         textViewName.setText(currItem.name)
         textViewtype.setText(currItem.type)
+        fillSeasonsAndOccasions()
+    }
+
+    fun fillSeasonsAndOccasions() {
+        val s = currItem.getBools()
+        val seasons = StringBuilder()
+        val occasions = StringBuilder()
+        for (i in s.indices) {
+            when(i) {
+                0 -> {if(s[i] == '1') seasons.append("\u2022 Summer ")}
+                1 -> {if(s[i] == '1') seasons.append("\u2022 Autumn ")}
+                2 -> {if(s[i] == '1') seasons.append("\u2022 Winter ")}
+                3 -> {if(s[i] == '1') seasons.append("\u2022 Spring ")}
+                4 -> {if(s[i] == '1') occasions.append("\u2022 Casual ")}
+                5 -> {if(s[i] == '1') occasions.append("\u2022 Formal ")}
+                6 -> {if(s[i] == '1') occasions.append("\u2022 Sports ")}
+                7 -> {if(s[i] == '1') occasions.append("\u2022 Home ")}
+            }
+        }
+        textViewSeasons.setText(seasons.toString())
+        textViewOccasions.setText(occasions.toString())
     }
     class ShowItemContract: ActivityResultContract<Item,Item?>() {
         override fun createIntent(context: Context, input: Item): Intent {
@@ -88,7 +111,6 @@ class ShowingItemActivity : AppCompatActivity() {
                 .putExtra("name",input.name)
                 .putExtra("type",input.type)
                 .putExtra("bools",input.getBools())
-
         }
 
         override fun parseResult(resultCode: Int, intent: Intent?): Item? {
