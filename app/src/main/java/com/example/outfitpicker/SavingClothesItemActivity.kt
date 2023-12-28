@@ -11,8 +11,10 @@ import android.os.Bundle
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
@@ -21,9 +23,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.net.toFile
 import androidx.core.net.toUri
+import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.indices
-import androidx.core.view.iterator
 import com.example.outfitpicker.databasefiles.Item
 import java.io.File
 import java.io.FileOutputStream
@@ -34,6 +36,8 @@ class SavingClothesItemActivity : AppCompatActivity() {
     lateinit var spinnerType: Spinner
     lateinit var buttonSave: Button
     lateinit var buttonCamera: Button
+    lateinit var seasonsLayout: LinearLayout
+    lateinit var occasionsLayout: LinearLayout
 
     lateinit var imageUri: Uri
     lateinit var tempFileUri: Uri
@@ -77,6 +81,8 @@ class SavingClothesItemActivity : AppCompatActivity() {
         spinnerType = findViewById(R.id.spinnerType)
         buttonSave = findViewById(R.id.buttonSave)
         buttonCamera = findViewById(R.id.button_camera)
+        seasonsLayout = findViewById(R.id.seasonsLayout)
+        occasionsLayout = findViewById(R.id.occasionsLayout)
 
         buttonSave.setOnClickListener{
             saveItem()
@@ -92,6 +98,7 @@ class SavingClothesItemActivity : AppCompatActivity() {
             imageUri = File(filesDir,"Item#$id.png").toUri()
             val type = intent.getStringExtra("type").orEmpty()
             spinnerType.setSelection(getSelectionIndexFromString(type))
+            fillCheckBoxes(intent.getStringExtra("bools").orEmpty())
         }
         else {
             title = "Add Clothes Item"
@@ -103,20 +110,59 @@ class SavingClothesItemActivity : AppCompatActivity() {
     fun saveItem() {
         val itemName: String = editTextName.text.toString()
         val itemType: String = spinnerType.selectedItem.toString()
+        var bools: String = "00000000"
+        val sb = StringBuilder(bools)
 
         if (itemName.trim().isEmpty()) {
             Toast.makeText(this,"Please insert a name for the item", Toast.LENGTH_SHORT).show()
             return
         }
 
+        for (i in 0..<seasonsLayout.childCount) {
+            val v = seasonsLayout.getChildAt(i) as CheckBox
+            if (v.isChecked) {
+                sb.setCharAt(i,'1')
+            }
+        }
+
+        for (i in 0..<occasionsLayout.childCount) {
+            val v = occasionsLayout.getChildAt(i) as CheckBox
+            if (v.isChecked) {
+                sb.setCharAt(i+4,'1')
+            }
+        }
+
         var newIntent = Intent().putExtra("name",itemName)
             .putExtra("type",itemType)
+            .putExtra("bools",sb.toString())
 
         if (intent.hasExtra("id")) {
             newIntent.putExtra("id",intent.getIntExtra("id",0))
         }
         setResult(RESULT_OK,newIntent)
         finish()
+    }
+
+    fun fillCheckBoxes(bools: String) {
+        for (i in bools.indices) {
+            var box: CheckBox
+            if (i < 4) {
+                box = seasonsLayout.getChildAt(i) as CheckBox
+            }
+            else {
+                box = occasionsLayout.getChildAt(i-4) as CheckBox
+            }
+            when(i) {
+                0 -> {if(bools[i] == '1') box.isChecked = true}
+                1 -> {if(bools[i] == '1') box.isChecked = true}
+                2 -> {if(bools[i] == '1') box.isChecked = true}
+                3 -> {if(bools[i] == '1') box.isChecked = true}
+                4 -> {if(bools[i] == '1') box.isChecked = true}
+                5 -> {if(bools[i] == '1') box.isChecked = true}
+                6 -> {if(bools[i] == '1') box.isChecked = true}
+                7 -> {if(bools[i] == '1') box.isChecked = true}
+            }
+        }
     }
 
     fun getSelectionIndexFromString(type: String): Int {
@@ -183,6 +229,7 @@ class SavingClothesItemActivity : AppCompatActivity() {
                 name = intent!!.getStringExtra("name").orEmpty(),
                 type = intent.getStringExtra("type").orEmpty())
 
+            newItem.setBools(intent.getStringExtra("bools").orEmpty())
             return newItem
         }
     }
@@ -193,6 +240,7 @@ class SavingClothesItemActivity : AppCompatActivity() {
                 .putExtra("id",input.id)
                 .putExtra("name",input.name)
                 .putExtra("type",input.type)
+                .putExtra("bools",input.getBools())
         }
 
         override fun parseResult(resultCode: Int, intent: Intent?): Item? {
@@ -205,6 +253,7 @@ class SavingClothesItemActivity : AppCompatActivity() {
                 name = intent!!.getStringExtra("name").orEmpty(),
                 type = intent.getStringExtra("type").orEmpty()
             )
+            newItem.setBools(intent.getStringExtra("bools").orEmpty())
             return newItem
         }
 

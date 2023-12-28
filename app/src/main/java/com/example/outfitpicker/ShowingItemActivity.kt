@@ -28,6 +28,7 @@ class ShowingItemActivity : AppCompatActivity() {
             populateFields()
             var newIntent = Intent().putExtra("name",item.name)
                 .putExtra("type",item.type)
+                .putExtra("bools",item.getBools())
 
             if (intent.hasExtra("id")) {
                 newIntent.putExtra("id",intent.getIntExtra("id",0))
@@ -69,8 +70,9 @@ class ShowingItemActivity : AppCompatActivity() {
         val id = intent.getIntExtra("id",0)
         val name = intent.getStringExtra("name").orEmpty()
         val type = intent.getStringExtra("type").orEmpty()
-
-        return Item(id,name,type)
+        val item = Item(id,name,type)
+        item.setBools(intent.getStringExtra("bools").orEmpty())
+        return item
     }
     fun populateFields() {
         val imageFile = File(filesDir,"Item#${currItem.id}.png")
@@ -85,6 +87,7 @@ class ShowingItemActivity : AppCompatActivity() {
                 .putExtra("id",input.id)
                 .putExtra("name",input.name)
                 .putExtra("type",input.type)
+                .putExtra("bools",input.getBools())
 
         }
 
@@ -97,6 +100,7 @@ class ShowingItemActivity : AppCompatActivity() {
                 name = intent!!.getStringExtra("name").orEmpty(),
                 type = intent.getStringExtra("type").orEmpty()
             )
+            newItem.setBools(intent.getStringExtra("bools").orEmpty())
             return newItem
         }
 
