@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.outfitpicker.databasefiles.Item
 import java.io.File
 
-class ItemsAdapter(private val filesDir: File, private val listener: OnItemClickListener): RecyclerView.Adapter<ItemsAdapter.ViewHolder>() {
+class ItemsAdapter(private val filesDir: File, private val listener: OnItemClickListener, private val hasOnClick: Boolean = true): RecyclerView.Adapter<ItemsAdapter.ViewHolder>() {
     private var items: List<Item> = emptyList()
 
     init {
@@ -24,8 +24,10 @@ class ItemsAdapter(private val filesDir: File, private val listener: OnItemClick
             textViewName = view.findViewById(R.id.text_view_clothes_item)
             imageViewItem = view.findViewById(R.id.image_view_clothes_item)
 
-            view.setOnClickListener{
-                listener.onItemClick(items[adapterPosition])
+            if (hasOnClick) {
+                view.setOnClickListener{
+                    listener.onItemClick(items[adapterPosition])
+                }
             }
         }
     }

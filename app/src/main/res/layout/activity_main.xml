@@ -38,18 +38,18 @@
    <androidx.cardview.widget.CardView
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
-      android:layout_alignParentBottom="true"
-      android:padding="20dp"
-      app:cardCornerRadius="28dp"
+       android:layout_alignParentBottom="true"
+       android:padding="20dp"
+       app:cardCornerRadius="28dp"
        android:layout_marginBottom="20dp">
 
       <Button
           android:layout_width="145dp"
           android:layout_height="145dp"
-         android:layout_gravity="right"
+          android:layout_gravity="right"
           android:layout_marginEnd="40dp"
-         android:id="@+id/add_btn"
-          android:background="@drawable/add_photo_icon"
+          android:id="@+id/add_btn"
+          android:background="@drawable/polo_shirt_icon"
           />
 
       <Button
@@ -58,7 +58,7 @@
           android:layout_gravity="left"
           android:layout_marginLeft="40dp"
           android:id="@+id/choose_outfit_btn"
-          android:background="@drawable/add_photo_icon"
+          android:background="@drawable/outfit_icon"
           />
 
 
