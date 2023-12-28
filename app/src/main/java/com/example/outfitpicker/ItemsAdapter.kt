@@ -43,7 +43,7 @@ class ItemsAdapter(private val filesDir: File, private val listener: OnItemClick
 
     override fun onBindViewHolder(holder: ItemsAdapter.ViewHolder, position: Int) {
         holder.textViewName.text = items[position].name
-        val id = items[position].id
+        val id = items[position].itemId
         val file: File = File(filesDir,"Item#$id.png")
         holder.imageViewItem.setImageURI(null)
         holder.imageViewItem.setImageURI(file.toUri())

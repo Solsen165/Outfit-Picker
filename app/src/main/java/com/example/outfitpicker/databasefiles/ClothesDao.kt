@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 
 @Dao
@@ -32,4 +33,15 @@ interface ClothesDao {
 
     @Query("Select * FROM outfit_table")
     fun getAllOutfits(): LiveData<List<Outfit>>
+
+    @Insert
+    suspend fun insertItemOutfitCrossRef(crossRef: ItemOutfitCrossRef)
+
+    @Transaction
+    @Query("SELECT * FROM outfit_table WHERE outfitId = :outfitId")
+    suspend fun getOutfitWithItems(outfitId: Int): List<OutfitWithItems>
+
+    @Transaction
+    @Query("SELECT * FROM item_table WHERE itemId = :itemId")
+    suspend fun getItemWithOutfits(itemId: Int): List<ItemWithOutfits>
 }

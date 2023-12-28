@@ -7,7 +7,7 @@ import java.lang.StringBuilder
 @Entity("item_table")
 data class Item(
     @PrimaryKey(autoGenerate = true)
-    val id : Int = 0,
+    val itemId : Int = 0,
     val name : String,
     val type : String,
     var summer : Boolean = false,
