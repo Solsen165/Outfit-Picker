@@ -31,8 +31,19 @@ class OutfitListViewModel(private val repository: ClothesRepository): ViewModel(
         return allOutfits
     }
 
+    fun getOutfitWithItems(outfitId : Int): LiveData<OutfitWithItems> {
+        val result = MutableLiveData<OutfitWithItems>()
+        viewModelScope.launch {
+            result.postValue(repository.getOutfitWithItems(outfitId))
+        }
+        return result
+    }
+
     fun insert(itemOutfitCrossRef: ItemOutfitCrossRef) = viewModelScope.launch {
         repository.insertItemOutfitCrossRef(itemOutfitCrossRef)
+    }
+    fun delete(itemOutfitCrossRef: ItemOutfitCrossRef) = viewModelScope.launch {
+        repository.deleteItemOutfitCrossRef(itemOutfitCrossRef)
     }
 
 }

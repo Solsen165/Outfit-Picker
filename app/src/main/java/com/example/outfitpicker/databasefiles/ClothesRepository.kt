@@ -49,6 +49,17 @@ class ClothesRepository(private val clothesDao: ClothesDao) {
     suspend fun insertItemOutfitCrossRef(itemOutfitCrossRef: ItemOutfitCrossRef) {
         clothesDao.insertItemOutfitCrossRef(itemOutfitCrossRef)
     }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteItemOutfitCrossRef(itemOutfitCrossRef: ItemOutfitCrossRef) {
+        clothesDao.deleteItemOutfitCrossRef(itemOutfitCrossRef)
+    }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getOutfitWithItems(outfitId: Int): OutfitWithItems {
+        return clothesDao.getOutfitWithItems(outfitId)
+    }
+
 
 
 }

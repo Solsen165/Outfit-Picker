@@ -36,12 +36,18 @@ interface ClothesDao {
 
     @Insert
     suspend fun insertItemOutfitCrossRef(crossRef: ItemOutfitCrossRef)
+    @Delete
+    suspend fun deleteItemOutfitCrossRef(crossRef: ItemOutfitCrossRef)
 
     @Transaction
     @Query("SELECT * FROM outfit_table")
     fun getOutfitWithItems(): LiveData<List<OutfitWithItems>>
 
     @Transaction
+    @Query("SELECT * FROM outfit_table WHERE outfitId = :outfitId")
+    suspend fun getOutfitWithItems(outfitId: Int): OutfitWithItems
+
+    @Transaction
     @Query("SELECT * FROM item_table WHERE itemId = :itemId")
-    suspend fun getItemWithOutfits(itemId: Int): List<ItemWithOutfits>
+    fun getItemWithOutfits(itemId: Int): List<ItemWithOutfits>
 }

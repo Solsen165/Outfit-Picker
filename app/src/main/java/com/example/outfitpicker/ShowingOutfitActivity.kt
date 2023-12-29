@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,6 +21,26 @@ class ShowingOutfitActivity : AppCompatActivity() {
     lateinit var textViewSeasons: TextView
     lateinit var textViewOccasions: TextView
     lateinit var recyclerView: RecyclerView
+    lateinit var adapter: ItemsAdapter
+
+    private val editOutfitContract = registerForActivityResult(SavingOutfitActivity.EditOutfitContract()) {outfitWithItems ->
+        if (outfitWithItems != null) {
+            currOutfit = outfitWithItems
+            textViewName.setText(currOutfit.outfit.name)
+            fillSeasonsAndOccasions()
+            adapter.setItems(outfitWithItems.items)
+
+            var newIntent = Intent().putExtra("name",outfitWithItems.outfit.name)
+                .putExtra("bools",outfitWithItems.outfit.getBools())
+                .putParcelableArrayListExtra("items", ArrayList(outfitWithItems.items))
+
+            if (intent.hasExtra("id")) {
+                newIntent.putExtra("id",intent.getIntExtra("id",0))
+            }
+            setResult(RESULT_OK,newIntent)
+        }
+
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_showing_outfit)
@@ -30,23 +52,44 @@ class ShowingOutfitActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.recycler_view_clothes_items_for_outfit)
 
         recyclerView.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        val adapter: ItemsAdapter = ItemsAdapter(filesDir, object : ItemsAdapter.OnItemClickListener {
-            override fun onItemClick(item: Item) {
-                return
-            }
-            override fun selectItem(item: Item) {
-                return
-            }
-            override fun deSelectItem(item: Item) {
-                return
-            }
+        adapter =
+            ItemsAdapter(filesDir, object : ItemsAdapter.OnItemClickListener {
+                override fun onItemClick(item: Item) {
+                    return
+                }
 
-        }, false, false)
+                override fun selectItem(item: Item) {
+                    return
+                }
+
+                override fun deSelectItem(item: Item) {
+                    return
+                }
+
+            }, false, false)
         recyclerView.adapter = adapter
+
         adapter.setItems(currOutfit.items)
 
         textViewName.setText(currOutfit.outfit.name)
         fillSeasonsAndOccasions()
+    }
+
+    @Override
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.showing_item_menu,menu)
+        return true
+    }
+
+    @Override
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId) {
+            R.id.edit_item -> {
+                editOutfitContract.launch(currOutfit)
+                return true
+            }
+            else -> return super.onOptionsItemSelected(item)
+        }
     }
 
     fun extractOutfit(): OutfitWithItems {

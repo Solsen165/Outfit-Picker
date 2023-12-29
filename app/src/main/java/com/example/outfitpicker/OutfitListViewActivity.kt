@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
@@ -22,6 +23,23 @@ class OutfitListViewActivity : AppCompatActivity() {
     private val showOutfitContract = registerForActivityResult(ShowingOutfitActivity.ShowOutfitContract()) {outfitWithItems ->
         if (outfitWithItems != null) {
             // TODO update the outfit
+            outfitViewModel.update(outfitWithItems.outfit)
+            outfitViewModel.getOutfitWithItems(outfitWithItems.outfit.outfitId).observe(this, Observer {
+                val newItems = outfitWithItems.items
+                val oldItems = it.items
+                for (item in oldItems) {
+                    if (!newItems.contains(item)) {
+                        outfitViewModel.delete(ItemOutfitCrossRef(item.itemId,outfitWithItems.outfit.outfitId))
+                    }
+                }
+                for (item in newItems) {
+                    if (!oldItems.contains(item)) {
+                        outfitViewModel.insert(ItemOutfitCrossRef(item.itemId,outfitWithItems.outfit.outfitId))
+                    }
+                }
+            })
+
+            Toast.makeText(this, "Outfit updated", Toast.LENGTH_SHORT).show()
         }
     }
     private val addOutfitContract = registerForActivityResult(SavingOutfitActivity.AddOutfitContract()) {outfitWithItems ->

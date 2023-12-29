@@ -51,6 +51,9 @@ class ItemsAdapter(private val filesDir: File, private val listener: OnItemClick
         items = newItems
         notifyDataSetChanged()
     }
+    fun getItems(): List<Item> {
+        return items
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemsAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.list_item_clothes,parent,false)
         return ViewHolder(view)

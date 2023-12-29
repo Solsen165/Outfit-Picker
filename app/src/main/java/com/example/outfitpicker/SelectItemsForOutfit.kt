@@ -43,7 +43,6 @@ class SelectItemsForOutfit : AppCompatActivity() {
 
         itemsViewModel.getAllItems().observe(this, Observer { items ->
             adapter.setItems(items)
-            recyclerView.invalidate()
         })
 
         val confirmButton: FloatingActionButton = findViewById(R.id.button_confirm_selection)
