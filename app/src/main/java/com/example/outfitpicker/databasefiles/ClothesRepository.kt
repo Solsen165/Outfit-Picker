@@ -44,6 +44,11 @@ class ClothesRepository(private val clothesDao: ClothesDao) {
     fun getAllOutfits() : LiveData<List<OutfitWithItems>> {
         return allOutfits
     }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertItemOutfitCrossRef(itemOutfitCrossRef: ItemOutfitCrossRef) {
+        clothesDao.insertItemOutfitCrossRef(itemOutfitCrossRef)
+    }
 
 
 }

@@ -29,7 +29,7 @@
             android:orientation="vertical">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/item_image_preview"
+                android:id="@+id/recycler_view_clothes_items_for_outfit"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"

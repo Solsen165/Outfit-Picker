@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.outfitpicker.databasefiles.ClothesRepository
+import com.example.outfitpicker.databasefiles.ItemOutfitCrossRef
 import com.example.outfitpicker.databasefiles.Outfit
 import com.example.outfitpicker.databasefiles.OutfitWithItems
 import kotlinx.coroutines.launch
@@ -30,11 +31,15 @@ class OutfitListViewModel(private val repository: ClothesRepository): ViewModel(
         return allOutfits
     }
 
+    fun insert(itemOutfitCrossRef: ItemOutfitCrossRef) = viewModelScope.launch {
+        repository.insertItemOutfitCrossRef(itemOutfitCrossRef)
+    }
+
 }
 
 class OutfitViewModelFactory(private val repository: ClothesRepository): ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(ItemsViewModel::class.java)){
+        if (modelClass.isAssignableFrom(OutfitListViewModel::class.java)){
             @Suppress("UNCHECKED_CAST")
             return OutfitListViewModel(repository) as T
         }

@@ -47,6 +47,9 @@ class OutfitAdapter(private val filesDir: File, private val listener: OnOutfitCl
         holder.textViewName.text = outfits[position].outfit.name
         var imageViewIndex = 0
         for (item in outfits[position].items) {
+            if (imageViewIndex > 3) {
+                break
+            }
             val imageView = holder.gridLayout.getChildAt(imageViewIndex) as ImageView
             imageViewIndex += 1
             val imageFile = File(filesDir,"Item#${item.itemId}.png")

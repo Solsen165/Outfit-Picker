@@ -17,17 +17,6 @@
         android:padding="5dp"
         android:orientation="vertical">
 
-        <RadioButton
-            android:id="@+id/radioButton2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:layout_marginEnd="4dp"
-            android:minWidth="0dp"
-            android:minHeight="0dp"
-            app:layout_constraintEnd_toEndOf="@+id/image_view_clothes_item"
-            app:layout_constraintTop_toTopOf="@+id/image_view_clothes_item" />
-
         <ImageView
             android:id="@+id/image_view_clothes_item"
             android:layout_width="120dp"
@@ -37,6 +26,17 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <CheckBox
+            android:id="@+id/check_box_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            app:layout_constraintEnd_toEndOf="@+id/image_view_clothes_item"
+            app:layout_constraintTop_toTopOf="@+id/image_view_clothes_item" />
 
         <TextView
             android:id="@+id/text_view_clothes_item"
@@ -49,6 +49,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/image_view_clothes_item" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

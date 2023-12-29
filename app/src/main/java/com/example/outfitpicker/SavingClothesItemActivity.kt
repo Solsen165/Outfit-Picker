@@ -74,7 +74,7 @@ class SavingClothesItemActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.saving_photo_layout)
-
+        title = "Add Item"
         editTextName = findViewById(R.id.item_name)
         imageView = findViewById(R.id.item_image_preview)
         spinnerType = findViewById(R.id.spinnerType)

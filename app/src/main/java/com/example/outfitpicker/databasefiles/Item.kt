@@ -1,9 +1,11 @@
 package com.example.outfitpicker.databasefiles
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
 import java.lang.StringBuilder
-
+@Parcelize
 @Entity("item_table")
 data class Item(
     @PrimaryKey(autoGenerate = true)
@@ -20,7 +22,7 @@ data class Item(
     var home : Boolean = false
 
     //val image : Bitmap
-) {
+) : Parcelable {
     fun setBools(s : String) {
         for (i in s.indices) {
             when(i) {

@@ -27,28 +27,24 @@
                 android:layout_height="60dp"
                 android:layout_margin="3dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/polo_shirt_icon"
                 android:layout_gravity="center"/>
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_margin="3dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/polo_shirt_icon"
                 android:layout_gravity="center"/>
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_margin="3dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/polo_shirt_icon"
                 android:layout_gravity="center"/>
             <ImageView
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:layout_margin="3dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/polo_shirt_icon"
                 android:layout_gravity="center"/>
         </GridLayout>
 

@@ -86,6 +86,14 @@ class ItemListViewActivity : AppCompatActivity() {
             override fun onItemClick(item: Item) {
                 showItemContract.launch(item)
             }
+
+            override fun deSelectItem(item: Item) {
+                return
+            }
+
+            override fun selectItem(item: Item) {
+                return
+            }
         })
         recyclerView.adapter = adapter
 
