@@ -7,12 +7,10 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.core.net.toUri
 import com.example.outfitpicker.databasefiles.Item
-import org.w3c.dom.Text
 import java.io.File
 
 class ShowingItemActivity : AppCompatActivity() {
@@ -77,7 +75,7 @@ class ShowingItemActivity : AppCompatActivity() {
         return item
     }
     fun populateFields() {
-        val imageFile = File(filesDir,"Item#${currItem.id}.png")
+        val imageFile = File(filesDir,"Item#${currItem.itemId}.png")
         imageView.setImageURI(null)
         imageView.setImageURI(imageFile.toUri())
         textViewName.setText(currItem.name)
@@ -107,7 +105,7 @@ class ShowingItemActivity : AppCompatActivity() {
     class ShowItemContract: ActivityResultContract<Item,Item?>() {
         override fun createIntent(context: Context, input: Item): Intent {
             return Intent(context, ShowingItemActivity::class.java)
-                .putExtra("id",input.id)
+                .putExtra("id",input.itemId)
                 .putExtra("name",input.name)
                 .putExtra("type",input.type)
                 .putExtra("bools",input.getBools())
@@ -118,7 +116,7 @@ class ShowingItemActivity : AppCompatActivity() {
                 return null
             }
             val newItem = Item(
-                id = intent!!.getIntExtra("id",0),
+                itemId = intent!!.getIntExtra("id",0),
                 name = intent!!.getStringExtra("name").orEmpty(),
                 type = intent.getStringExtra("type").orEmpty()
             )

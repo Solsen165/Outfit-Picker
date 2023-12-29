@@ -23,7 +23,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.FileProvider
 import androidx.core.net.toFile
 import androidx.core.net.toUri
-import androidx.core.view.children
 import androidx.core.view.get
 import androidx.core.view.indices
 import com.example.outfitpicker.databasefiles.Item
@@ -237,7 +236,7 @@ class SavingClothesItemActivity : AppCompatActivity() {
     class EditItemContract: ActivityResultContract<Item, Item?>() {
         override fun createIntent(context: Context, input: Item): Intent {
             return Intent(context, SavingClothesItemActivity::class.java)
-                .putExtra("id",input.id)
+                .putExtra("id",input.itemId)
                 .putExtra("name",input.name)
                 .putExtra("type",input.type)
                 .putExtra("bools",input.getBools())
@@ -249,7 +248,7 @@ class SavingClothesItemActivity : AppCompatActivity() {
             }
 
             val newItem = Item(
-                id = intent!!.getIntExtra("id",0),
+                itemId = intent!!.getIntExtra("id",0),
                 name = intent!!.getStringExtra("name").orEmpty(),
                 type = intent.getStringExtra("type").orEmpty()
             )

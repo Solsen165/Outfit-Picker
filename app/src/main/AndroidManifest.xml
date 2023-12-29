@@ -14,6 +14,18 @@
         android:theme="@style/Theme.OutfitPicker"
         tools:targetApi="31">
         <activity
+            android:name=".ShowingOutfitActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SelectItemsForOutfit"
+            android:exported="false" />
+        <activity
+            android:name=".SavingOutfitActivity"
+            android:exported="false" />
+        <activity
+            android:name=".OutfitListViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".ShowingItemActivity"
             android:exported="false" />
 
@@ -32,9 +44,6 @@
             android:exported="false" />
         <activity
             android:name=".ItemListViewActivity"
-            android:exported="false" />
-        <activity
-            android:name=".PickOutfit"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

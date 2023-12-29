@@ -5,7 +5,7 @@ import androidx.lifecycle.LiveData
 
 class ClothesRepository(private val clothesDao: ClothesDao) {
     private val allItems: LiveData<List<Item>> = clothesDao.getAllItems()
-    private val allOutfits: LiveData<List<Outfit>> = clothesDao.getAllOutfits()
+    private val allOutfits: LiveData<List<OutfitWithItems>> = clothesDao.getOutfitWithItems()
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -28,8 +28,8 @@ class ClothesRepository(private val clothesDao: ClothesDao) {
 
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
-    suspend fun insertOutfit(outfit: Outfit) {
-        clothesDao.insertOutfit(outfit)
+    suspend fun insertOutfit(outfit: Outfit): Long {
+        return clothesDao.insertOutfit(outfit)
     }
     @Suppress("RedundantSuspendModifier")
     @WorkerThread
@@ -41,8 +41,25 @@ class ClothesRepository(private val clothesDao: ClothesDao) {
     suspend fun deleteOutfit(outfit: Outfit) {
         clothesDao.deleteOutfit(outfit)
     }
-    fun getAllOutfits() : LiveData<List<Outfit>> {
+    fun getAllOutfits() : LiveData<List<OutfitWithItems>> {
         return allOutfits
     }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun insertItemOutfitCrossRef(itemOutfitCrossRef: ItemOutfitCrossRef) {
+        clothesDao.insertItemOutfitCrossRef(itemOutfitCrossRef)
+    }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun deleteItemOutfitCrossRef(itemOutfitCrossRef: ItemOutfitCrossRef) {
+        clothesDao.deleteItemOutfitCrossRef(itemOutfitCrossRef)
+    }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getOutfitWithItems(outfitId: Int): OutfitWithItems {
+        return clothesDao.getOutfitWithItems(outfitId)
+    }
+
+
 
 }

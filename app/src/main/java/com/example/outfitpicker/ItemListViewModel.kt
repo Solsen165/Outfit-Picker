@@ -25,7 +25,7 @@ class ItemsViewModel(private val repository: ClothesRepository): ViewModel() {
     fun delete(item: Item) = viewModelScope.launch {
         repository.deleteItem(item)
     }
-    fun getAllNotes(): LiveData<List<Item>>{
+    fun getAllItems(): LiveData<List<Item>>{
         return allItems
     }
 }

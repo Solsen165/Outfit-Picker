@@ -86,6 +86,14 @@ class ItemListViewActivity : AppCompatActivity() {
             override fun onItemClick(item: Item) {
                 showItemContract.launch(item)
             }
+
+            override fun deSelectItem(item: Item) {
+                return
+            }
+
+            override fun selectItem(item: Item) {
+                return
+            }
         })
         recyclerView.adapter = adapter
 
@@ -95,7 +103,7 @@ class ItemListViewActivity : AppCompatActivity() {
         }
 
         // Observing the view model so that when we add new items, the recycler view is updated
-        itemsViewModel.getAllNotes().observe(this, Observer {items ->
+        itemsViewModel.getAllItems().observe(this, Observer { items ->
             adapter.setItems(items)
             recyclerView.invalidate()
         })
