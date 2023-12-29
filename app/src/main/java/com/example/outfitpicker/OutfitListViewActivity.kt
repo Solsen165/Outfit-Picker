@@ -22,7 +22,6 @@ class OutfitListViewActivity : AppCompatActivity() {
     }
     private val showOutfitContract = registerForActivityResult(ShowingOutfitActivity.ShowOutfitContract()) {outfitWithItems ->
         if (outfitWithItems != null) {
-            // TODO update the outfit
             outfitViewModel.update(outfitWithItems.outfit)
             outfitViewModel.getOutfitWithItems(outfitWithItems.outfit.outfitId).observe(this, Observer {
                 val newItems = outfitWithItems.items
