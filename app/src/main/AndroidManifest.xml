@@ -14,6 +14,9 @@
         android:theme="@style/Theme.OutfitPicker"
         tools:targetApi="31">
         <activity
+            android:name=".ShowingOutfitActivity"
+            android:exported="false" />
+        <activity
             android:name=".SelectItemsForOutfit"
             android:exported="false" />
         <activity

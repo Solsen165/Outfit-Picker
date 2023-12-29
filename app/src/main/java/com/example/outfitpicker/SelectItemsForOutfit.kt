@@ -60,7 +60,7 @@ class SelectItemsForOutfit : AppCompatActivity() {
         finish()
     }
 
-    class SelectItemsContract: ActivityResultContract<List<Item>?,List<Item>>() {
+    class SelectItemsContract: ActivityResultContract<List<Item>?,List<Item>?>() {
         override fun createIntent(context: Context, input: List<Item>?): Intent {
             val intent = Intent(context, SelectItemsForOutfit::class.java)
             if (input != null) {
@@ -69,7 +69,10 @@ class SelectItemsForOutfit : AppCompatActivity() {
             return intent
         }
 
-        override fun parseResult(resultCode: Int, intent: Intent?): List<Item> {
+        override fun parseResult(resultCode: Int, intent: Intent?): List<Item>? {
+            if (resultCode != RESULT_OK) {
+                return null
+            }
             val arrayList: ArrayList<Item> = intent!!.getParcelableArrayListExtra<Item>("items")!!
 
             return arrayList.toList()

@@ -19,6 +19,11 @@ class OutfitListViewActivity : AppCompatActivity() {
     private val outfitViewModel : OutfitListViewModel by viewModels {
         OutfitViewModelFactory((application as ClothesApplication).repository)
     }
+    private val showOutfitContract = registerForActivityResult(ShowingOutfitActivity.ShowOutfitContract()) {outfitWithItems ->
+        if (outfitWithItems != null) {
+            // TODO update the outfit
+        }
+    }
     private val addOutfitContract = registerForActivityResult(SavingOutfitActivity.AddOutfitContract()) {outfitWithItems ->
         if (outfitWithItems != null) {
             outfitViewModel.insert(outfitWithItems.outfit).observe(this, Observer {id ->
@@ -30,7 +35,9 @@ class OutfitListViewActivity : AppCompatActivity() {
         }
     }
     private val selectItemsContract = registerForActivityResult(SelectItemsForOutfit.SelectItemsContract()) {items ->
-        addOutfitContract.launch(items.toList())
+        if (items != null) {
+            addOutfitContract.launch(items.toList())
+        }
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,7 +49,7 @@ class OutfitListViewActivity : AppCompatActivity() {
         recyclerView.layoutManager = GridLayoutManager(this, 3)
         val adapter: OutfitAdapter = OutfitAdapter(filesDir, object : OutfitAdapter.OnOutfitClickListener {
             override fun onOutfitClick(outfit: OutfitWithItems) {
-                TODO("Not yet implemented")
+                showOutfitContract.launch(outfit)
             }
         })
         recyclerView.adapter = adapter

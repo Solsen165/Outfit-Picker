@@ -28,9 +28,15 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Included Items"
+                android:textStyle="bold"/>
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_view_clothes_items_for_outfit"
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="20dp"
