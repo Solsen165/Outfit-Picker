@@ -5,8 +5,10 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.RawQuery
 import androidx.room.Transaction
 import androidx.room.Update
+import androidx.sqlite.db.SimpleSQLiteQuery
 
 @Dao
 interface ClothesDao {
@@ -50,4 +52,8 @@ interface ClothesDao {
     @Transaction
     @Query("SELECT * FROM outfit_table WHERE outfitId IN (SELECT outfitId FROM ItemOutfitCrossRef WHERE itemId = :itemId)")
     suspend fun getOutfitsWithItemsId(itemId: Int): List<OutfitWithItems>
+
+    @Transaction
+    @RawQuery
+    suspend fun getOutfitWithAttributes(query: SimpleSQLiteQuery): List<OutfitWithItems>
 }

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import androidx.sqlite.db.SimpleSQLiteQuery
 import com.example.outfitpicker.databasefiles.ClothesRepository
 import com.example.outfitpicker.databasefiles.ItemOutfitCrossRef
 import com.example.outfitpicker.databasefiles.Outfit
@@ -35,6 +36,15 @@ class OutfitListViewModel(private val repository: ClothesRepository): ViewModel(
         val result = MutableLiveData<OutfitWithItems>()
         viewModelScope.launch {
             result.postValue(repository.getOutfitWithItems(outfitId))
+        }
+        return result
+    }
+    fun getOutfitWithAttributes(season: String, occasion: String): LiveData<List<OutfitWithItems>> {
+        val result = MutableLiveData<List<OutfitWithItems>>()
+        viewModelScope.launch {
+            val queryString = "SELECT * FROM outfit_table WHERE $season = 1 AND $occasion = 1"
+            val query = SimpleSQLiteQuery(queryString)
+            result.postValue(repository.getOutfitsWithAttributes(query))
         }
         return result
     }

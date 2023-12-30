@@ -10,4 +10,16 @@
         <item>Sweat-Shirt</item>
         <item>Jeans</item>
     </string-array>
+    <string-array name="seasons">
+        <item>Summer</item>
+        <item>Autumn</item>
+        <item>Winter</item>
+        <item>Spring</item>
+    </string-array>
+    <string-array name="occasions">
+        <item>Casual</item>
+        <item>Formal</item>
+        <item>Sports</item>
+        <item>Home</item>
+    </string-array>
 </resources>

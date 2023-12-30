@@ -2,6 +2,7 @@ package com.example.outfitpicker.databasefiles
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.sqlite.db.SimpleSQLiteQuery
 
 class ClothesRepository(private val clothesDao: ClothesDao) {
     private val allItems: LiveData<List<Item>> = clothesDao.getAllItems()
@@ -63,6 +64,11 @@ class ClothesRepository(private val clothesDao: ClothesDao) {
     @WorkerThread
     suspend fun getOutfitsWithItemsId(itemId: Int): List<OutfitWithItems> {
         return clothesDao.getOutfitsWithItemsId(itemId)
+    }
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getOutfitsWithAttributes(query: SimpleSQLiteQuery): List<OutfitWithItems> {
+        return clothesDao.getOutfitWithAttributes(query)
     }
 
 
