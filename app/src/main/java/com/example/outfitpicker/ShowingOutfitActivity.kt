@@ -7,11 +7,15 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.example.outfitpicker.databasefiles.Item
+import com.example.outfitpicker.databasefiles.ItemOutfitCrossRef
 import com.example.outfitpicker.databasefiles.Outfit
 import com.example.outfitpicker.databasefiles.OutfitWithItems
 
@@ -22,6 +26,9 @@ class ShowingOutfitActivity : AppCompatActivity() {
     lateinit var textViewOccasions: TextView
     lateinit var recyclerView: RecyclerView
     lateinit var adapter: ItemsAdapter
+    private val outfitViewModel : OutfitListViewModel by viewModels {
+        OutfitViewModelFactory((application as ClothesApplication).repository)
+    }
 
     private val editOutfitContract = registerForActivityResult(SavingOutfitActivity.EditOutfitContract()) {outfitWithItems ->
         if (outfitWithItems != null) {
@@ -77,6 +84,9 @@ class ShowingOutfitActivity : AppCompatActivity() {
 
     @Override
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        if (intent.hasExtra("noMenu")) {
+            return true
+        }
         menuInflater.inflate(R.menu.showing_item_menu,menu)
         return true
     }
@@ -86,6 +96,10 @@ class ShowingOutfitActivity : AppCompatActivity() {
         return when(item.itemId) {
             R.id.edit_item -> {
                 editOutfitContract.launch(currOutfit)
+                return true
+            }
+            R.id.delete_item -> {
+                showDeleteDialog()
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
@@ -120,6 +134,26 @@ class ShowingOutfitActivity : AppCompatActivity() {
         textViewSeasons.setText(seasons.toString())
         textViewOccasions.setText(occasions.toString())
     }
+    fun showDeleteDialog() {
+        val deleteDialog = AlertDialog.Builder(this)
+            .setTitle("Delete Outfit")
+            .setMessage("Are you sure?\n\nThe items included in the outfit will not be deleted")
+            .setPositiveButton("Yes") {_,_->
+                deleteOutfit()
+            }
+            .setNegativeButton("No") {_,_->}.create().show()
+    }
+
+    fun deleteOutfit() {
+        for (item in currOutfit.items) {
+            outfitViewModel.delete(ItemOutfitCrossRef(item.itemId,currOutfit.outfit.outfitId))
+        }
+        outfitViewModel.delete(currOutfit.outfit)
+        Toast.makeText(this,"Outfit deleted",Toast.LENGTH_SHORT).show()
+
+        setResult(RESULT_CANCELED,Intent())
+        finish()
+    }
 
     class ShowOutfitContract: ActivityResultContract<OutfitWithItems, OutfitWithItems?>() {
         override fun createIntent(context: Context, input: OutfitWithItems): Intent {
@@ -142,6 +176,21 @@ class ShowingOutfitActivity : AppCompatActivity() {
             val items = intent.getParcelableArrayListExtra<Item>("items")!!.toList()
 
             return OutfitWithItems(outfit,items)
+        }
+
+    }
+    class ShowOutfitContractWithoutMenu: ActivityResultContract<OutfitWithItems, Unit?>() {
+        override fun createIntent(context: Context, input: OutfitWithItems): Intent {
+            return Intent(context, ShowingOutfitActivity::class.java)
+                .putParcelableArrayListExtra("items", ArrayList(input.items))
+                .putExtra("id",input.outfit.outfitId)
+                .putExtra("name",input.outfit.name)
+                .putExtra("bools",input.outfit.getBools())
+                .putExtra("noMenu","noMenu")
+        }
+
+        override fun parseResult(resultCode: Int, intent: Intent?): Unit? {
+            return null
         }
 
     }

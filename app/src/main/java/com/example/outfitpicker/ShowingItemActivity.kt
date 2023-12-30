@@ -9,13 +9,16 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.core.net.toUri
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.outfitpicker.databasefiles.Item
+import com.example.outfitpicker.databasefiles.ItemOutfitCrossRef
 import com.example.outfitpicker.databasefiles.OutfitWithItems
 import java.io.File
 
@@ -91,6 +94,10 @@ class ShowingItemActivity : AppCompatActivity() {
                 editItemContract.launch(currItem)
                 return true
             }
+            R.id.delete_item -> {
+                showDeleteDialog()
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -130,6 +137,29 @@ class ShowingItemActivity : AppCompatActivity() {
         }
         textViewSeasons.setText(seasons.toString())
         textViewOccasions.setText(occasions.toString())
+    }
+    fun showDeleteDialog() {
+        val deleteDialog = AlertDialog.Builder(this)
+            .setTitle("Delete Item")
+            .setMessage("Are you sure?\n\nAny outfits that include this item will also be deleted")
+            .setPositiveButton("Yes") {_,_->
+                deleteItem()
+            }
+            .setNegativeButton("No") {_,_->}.create().show()
+    }
+
+    fun deleteItem() {
+        itemsViewModel.getOutfitsWithItemsId(currItem.itemId).observe(this, Observer {
+            for (outfit in it) {
+                itemsViewModel.delete(ItemOutfitCrossRef(currItem.itemId,outfit.outfit.outfitId))
+                itemsViewModel.delete(outfit.outfit)
+            }
+        })
+        itemsViewModel.delete(currItem)
+        Toast.makeText(this,"Item deleted",Toast.LENGTH_SHORT).show()
+
+        setResult(RESULT_CANCELED,Intent())
+        finish()
     }
     class ShowItemContract: ActivityResultContract<Item,Item?>() {
         override fun createIntent(context: Context, input: Item): Intent {

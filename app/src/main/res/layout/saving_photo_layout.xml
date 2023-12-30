@@ -49,6 +49,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:background="@color/white"
+                android:maxLines="1"
+                android:inputType="text"
                 android:hint="Enter the name of the item"
                 android:minHeight="48dp" />
 

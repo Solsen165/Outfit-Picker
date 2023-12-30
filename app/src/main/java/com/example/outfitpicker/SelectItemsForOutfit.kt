@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContract
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
@@ -52,6 +53,10 @@ class SelectItemsForOutfit : AppCompatActivity() {
     }
 
     fun saveSelection(items : List<Item>) {
+        if (items.size < 2) {
+            Toast.makeText(this,"An outfit must consist of at least 2 items",Toast.LENGTH_SHORT).show()
+            return
+        }
         val arraylist = ArrayList(items)
         var newIntent = Intent().putParcelableArrayListExtra("items", arraylist)
 

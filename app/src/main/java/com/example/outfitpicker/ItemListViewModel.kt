@@ -7,7 +7,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.outfitpicker.databasefiles.ClothesRepository
 import com.example.outfitpicker.databasefiles.Item
+import com.example.outfitpicker.databasefiles.ItemOutfitCrossRef
 import com.example.outfitpicker.databasefiles.ItemWithOutfits
+import com.example.outfitpicker.databasefiles.Outfit
 import com.example.outfitpicker.databasefiles.OutfitWithItems
 import kotlinx.coroutines.launch
 
@@ -36,6 +38,12 @@ class ItemsViewModel(private val repository: ClothesRepository): ViewModel() {
             result.postValue(repository.getOutfitsWithItemsId(itemId))
         }
         return result
+    }
+    fun delete(itemOutfitCrossRef: ItemOutfitCrossRef) = viewModelScope.launch {
+        repository.deleteItemOutfitCrossRef(itemOutfitCrossRef)
+    }
+    fun delete(outfit: Outfit) = viewModelScope.launch {
+        repository.deleteOutfit(outfit)
     }
 }
 
