@@ -7,6 +7,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.example.outfitpicker.databasefiles.ClothesRepository
 import com.example.outfitpicker.databasefiles.Item
+import com.example.outfitpicker.databasefiles.ItemWithOutfits
+import com.example.outfitpicker.databasefiles.OutfitWithItems
 import kotlinx.coroutines.launch
 
 class ItemsViewModel(private val repository: ClothesRepository): ViewModel() {
@@ -27,6 +29,13 @@ class ItemsViewModel(private val repository: ClothesRepository): ViewModel() {
     }
     fun getAllItems(): LiveData<List<Item>>{
         return allItems
+    }
+    fun getOutfitsWithItemsId(itemId: Int): LiveData<List<OutfitWithItems>> {
+        val result = MutableLiveData<List<OutfitWithItems>>()
+        viewModelScope.launch {
+            result.postValue(repository.getOutfitsWithItemsId(itemId))
+        }
+        return result
     }
 }
 

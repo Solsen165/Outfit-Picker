@@ -48,6 +48,6 @@ interface ClothesDao {
     suspend fun getOutfitWithItems(outfitId: Int): OutfitWithItems
 
     @Transaction
-    @Query("SELECT * FROM item_table WHERE itemId = :itemId")
-    fun getItemWithOutfits(itemId: Int): List<ItemWithOutfits>
+    @Query("SELECT * FROM outfit_table WHERE outfitId IN (SELECT outfitId FROM ItemOutfitCrossRef WHERE itemId = :itemId)")
+    suspend fun getOutfitsWithItemsId(itemId: Int): List<OutfitWithItems>
 }

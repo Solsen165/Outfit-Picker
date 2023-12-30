@@ -103,6 +103,22 @@
                 android:minHeight="48dp"
                 android:text="Item's Occasion" />
 
+            <TextView
+                android:id="@+id/text_view_recycler_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Included in the following outfits"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view_outfits_for_items"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_margin="15dp"
+                android:padding="20dp"
+                />
+
         </LinearLayout>
     </ScrollView>
 
