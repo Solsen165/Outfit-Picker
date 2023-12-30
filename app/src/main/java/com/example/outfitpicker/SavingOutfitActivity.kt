@@ -109,18 +109,32 @@ class SavingOutfitActivity : AppCompatActivity() {
             return
         }
 
+        var seasonChecked = false
         for (i in 0..<seasonsLayout.childCount) {
             val v = seasonsLayout.getChildAt(i) as CheckBox
             if (v.isChecked) {
+                seasonChecked = true
                 sb.setCharAt(i,'1')
             }
         }
+        
+        if (!seasonChecked) {
+            Toast.makeText(this,"Please select at least one season", Toast.LENGTH_SHORT).show()
+            return
+        }
 
+        var occasionChecked = false
         for (i in 0..<occasionsLayout.childCount) {
             val v = occasionsLayout.getChildAt(i) as CheckBox
             if (v.isChecked) {
+                occasionChecked = true
                 sb.setCharAt(i+4,'1')
             }
+        }
+
+        if (!occasionChecked) {
+            Toast.makeText(this,"Please select at least one occasion", Toast.LENGTH_SHORT).show()
+            return
         }
 
         var newIntent = Intent().putExtra("name",outfitName)
