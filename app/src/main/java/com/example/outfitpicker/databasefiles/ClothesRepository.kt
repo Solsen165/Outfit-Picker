@@ -59,7 +59,11 @@ class ClothesRepository(private val clothesDao: ClothesDao) {
     suspend fun getOutfitWithItems(outfitId: Int): OutfitWithItems {
         return clothesDao.getOutfitWithItems(outfitId)
     }
-
+    @Suppress("RedundantSuspendModifier")
+    @WorkerThread
+    suspend fun getOutfitsWithItemsId(itemId: Int): List<OutfitWithItems> {
+        return clothesDao.getOutfitsWithItemsId(itemId)
+    }
 
 
 }

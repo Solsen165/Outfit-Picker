@@ -12,7 +12,7 @@ import com.example.outfitpicker.databasefiles.Outfit
 import com.example.outfitpicker.databasefiles.OutfitWithItems
 import java.io.File
 
-class OutfitAdapter(private val filesDir: File, private val listener: OnOutfitClickListener ): RecyclerView.Adapter<OutfitAdapter.ViewHolder>() {
+class OutfitAdapter(private val filesDir: File, private val listener: OnOutfitClickListener, private val hasOnClick: Boolean = true): RecyclerView.Adapter<OutfitAdapter.ViewHolder>() {
     private var outfits: List<OutfitWithItems> = emptyList()
     init {
         setHasStableIds(true)
@@ -23,9 +23,10 @@ class OutfitAdapter(private val filesDir: File, private val listener: OnOutfitCl
         init {
             textViewName = view.findViewById(R.id.text_view_outfit_name)
             gridLayout = view.findViewById(R.id.items_grid)
-
-            view.setOnClickListener {
-                listener.onOutfitClick(outfits[adapterPosition])
+            if (hasOnClick) {
+                view.setOnClickListener {
+                    listener.onOutfitClick(outfits[adapterPosition])
+                }
             }
         }
     }

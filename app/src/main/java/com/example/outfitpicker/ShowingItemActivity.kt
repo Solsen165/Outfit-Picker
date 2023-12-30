@@ -6,11 +6,17 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContract
+import androidx.activity.viewModels
 import androidx.core.net.toUri
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.outfitpicker.databasefiles.Item
+import com.example.outfitpicker.databasefiles.OutfitWithItems
 import java.io.File
 
 class ShowingItemActivity : AppCompatActivity() {
@@ -20,6 +26,10 @@ class ShowingItemActivity : AppCompatActivity() {
     lateinit var textViewSeasons: TextView
     lateinit var textViewOccasions: TextView
     lateinit var currItem: Item
+    lateinit var recyclerView: RecyclerView
+    private val itemsViewModel: ItemsViewModel by viewModels {
+        ItemsViewModelFactory((application as ClothesApplication).repository)
+    }
     private val editItemContract = registerForActivityResult(SavingClothesItemActivity.EditItemContract()) {item ->
         if (item != null) {
             currItem = item
@@ -45,8 +55,27 @@ class ShowingItemActivity : AppCompatActivity() {
         textViewSeasons = findViewById(R.id.item_season_info)
 
         currItem = extractItem()
-        populateFields()
 
+        recyclerView = findViewById(R.id.recycler_view_outfits_for_items)
+        recyclerView.layoutManager = LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        val adapter: OutfitAdapter = OutfitAdapter(filesDir, object : OutfitAdapter.OnOutfitClickListener {
+            override fun onOutfitClick(outfit: OutfitWithItems) {
+               return
+            }
+        },false)
+        recyclerView.adapter = adapter
+        itemsViewModel.getOutfitsWithItemsId(currItem.itemId).observe(this, Observer {
+            if (it.size == 0) {
+                val textView: TextView = findViewById(R.id.text_view_recycler_view)
+                textView.visibility = View.INVISIBLE
+                recyclerView.visibility = View.INVISIBLE
+            }
+            else {
+                adapter.setOutfits(it)
+            }
+        })
+
+        populateFields()
     }
 
     @Override
